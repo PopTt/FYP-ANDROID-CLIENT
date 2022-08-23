@@ -40,7 +40,7 @@ const FaceRegister = () => {
     if(cameraRef) {
       try {
         const data = await cameraRef.current.takePictureAsync()
-        setImages(prevArray => [...prevArray, data.uri])
+        //setImages(prevArray => [...prevArray, data.uri])
         console.log(data)
       } catch (error) {
         console.log(error)
@@ -70,11 +70,13 @@ const FaceRegister = () => {
         }}>
         {getFaceDataView()}
       </Camera>
-      {
-        images.map((image, index)=>(
-          <Text>{image}</Text>
-        ))
-      }
+      <View style={styles.faces}>
+        {
+          images.map((image, index)=>(
+            <Text key={index}>{image}</Text>
+          ))
+        }
+      </View>
       <Text></Text>
     </View>
   )
@@ -88,7 +90,6 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,14 +1,18 @@
 import { View, Text, StyleSheet, Alert, Dimensions } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import { Camera } from 'expo-camera'
 import * as FaceDetector from 'expo-face-detector'
+import * as MediaLibrary from 'expo-media-library'
 
 const FaceRegister = () => {
   const [cameraPermission, setCameraPermission] = useState()
   const [faceData, setFaceData] = useState([])
+  const [images, setImages] = useState([])
+  const cameraRef = useRef(null)
 
   useEffect(() => {
     (async () => {
+      MediaLibrary.requestPermissionsAsync()
       const {status} = await Camera.requestCameraPermissionsAsync()
       setCameraPermission(status === "granted")
     })()
@@ -25,12 +29,25 @@ const FaceRegister = () => {
         const eyesShut = face.rightEyeOpenProbability < 0.4 && face.leftEyeOpenProbability < 0.4;
         const winking = !eyesShut && (face.rightEyeOpenProbability < 0.4 || face.leftEyeOpenProbability < 0.4);
         const smiling = face.smilingProbability > 0.7;
-        console.log(smiling)
-        
+        if(smiling){
+          takePicture()
+        }
       })
     }
   }
   
+  const takePicture = async() => {
+    if(cameraRef) {
+      try {
+        const data = await cameraRef.current.takePictureAsync()
+        setImages(prevArray => [...prevArray, data.uri])
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
   const handleFacesDetected = ({faces}) => {
     setFaceData(faces)
     //console.log(faces)
@@ -43,6 +60,7 @@ const FaceRegister = () => {
         style={styles.camera}
         onFacesDetected={handleFacesDetected}
         ratio={'4:3'}
+        ref={cameraRef}
         faceDetectorSettings={{
           mode: FaceDetector.FaceDetectorMode.fast,
           detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
@@ -52,6 +70,12 @@ const FaceRegister = () => {
         }}>
         {getFaceDataView()}
       </Camera>
+      {
+        images.map((image, index)=>(
+          <Text>{image}</Text>
+        ))
+      }
+      <Text></Text>
     </View>
   )
 }
@@ -59,7 +83,8 @@ const FaceRegister = () => {
 const styles = StyleSheet.create({
   camera: {
     flex: 1,
-    aspectRatio: 1
+    aspectRatio: 1,
+    borderRadius: 20
   },
   container: {
     flex: 1,

@@ -1,19 +1,24 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import React, {useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
 const AttendanceList = ({navigation}) => {
-  const {logout, authState} = useContext(AuthContext)
+  const {logout, authState, eventState} = useContext(AuthContext)
   return (
     <View style={styles.container}>
       <Text>AttendanceList</Text>
-      <Text>{authState.firstName}{authState.lastName}</Text>
+      <Text>{authState.firstName}{authState.username}</Text>
       <TouchableOpacity style={styles.btn} onPress={()=>logout()}>
         <Text>logout</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('FaceRegisterScreen')}>
         <Text>Register your face</Text>
       </TouchableOpacity>
+      <FlatList 
+        data={eventState.events}
+        renderItem={({item}) => <Text>{item.name}</Text>}
+        keyExtractor={item => item._id}
+      />
     </View>
   )
 }

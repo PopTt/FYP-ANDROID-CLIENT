@@ -1,9 +1,8 @@
 const authStore = {
-    id:null,
-    firstName: null,
-    lastName: null,
+    id: null,
+    username: null,
     email: null,
-    token: null
+    acctype: null
 }
 
 const loginReducer = (prevState, action) => {
@@ -12,20 +11,18 @@ const loginReducer = (prevState, action) => {
             return {
                 ...prevState,
                 id: action.id,
-                firstName: action.firstName,
-                lastName: action.lastName,
+                username: action.username,
                 email: action.email,
-                token: action.token
+                acctype: action.type
             }
         
         case 'LOGOUT':
             return {
                 ...prevState,
                 id: null,
-                firstName: null,
-                lastName: null,
+                username: null,
                 email: null,
-                token: null
+                acctype: null
             }
     }
 }

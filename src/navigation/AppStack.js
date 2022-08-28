@@ -19,7 +19,7 @@ const AppStack = () => {
   
     return (
       <NavigationContainer>
-          {authState.token === null ? <AuthStack/> : <HomeStack />}
+        {authState.id === null ? <AuthStack/> : <HomeStack />}
       </NavigationContainer>
     )
 }

@@ -103,10 +103,10 @@ const AuthProvider = ({children}) => {
         setIsLoading(true)
         let id = await AsyncStorage.getItem('id')
 
-        const response = await axiosInstance.post('participant/join',
+        const response = await instance.post('participant/join',
         {
             'user_id': id,
-            'invitation_code': invitationPin
+            'invitationPin': invitationPin
         }
         ).catch(err => {
             if(err && err.response) {

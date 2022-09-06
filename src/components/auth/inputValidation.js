@@ -3,11 +3,7 @@ import * as yup from 'yup'
 const PASSWORD_REGEX = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
 
 const registerValidation = yup.object({
-    first_name: yup
-    .string()
-    .required(),
-
-    last_name: yup
+    username: yup
     .string()
     .required(),
 

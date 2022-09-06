@@ -1,10 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
+import RegisterForm from '../../components/auth/RegisterForm'
 
 const Register = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>Register</Text>
+      <RegisterForm />
       <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('LoginScreen')}>
         <Text>go to Login</Text>
       </TouchableOpacity>

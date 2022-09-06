@@ -23,12 +23,12 @@ const EventItem = ({name, status, description, organization, _id}) => {
                 <Text style={styles.title}>
                     {name}
                 </Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleClick}>
                     <MaterialIcons name='event-available' size={40} color='#6A77FC'/>
                 </TouchableOpacity>
             </View>
             <View>
-                <Text style={{color: 'green', fontSize: 16, fontWeight: 'bold', fontFamily: 'sans-serif-condensed'}}>{status}</Text>
+                <Text style={{color: "red", fontSize: 16, fontWeight: 'bold', fontFamily: 'sans-serif-condensed'}}>{status}</Text>
             </View>
         </View>
         <View style={styles.footer}>
@@ -47,20 +47,20 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'white',
-      marginVertical: 8,
-      marginHorizontal: 16,
+      marginVertical: 10,
+      marginHorizontal: 10,
       elevation: 6
     },
     header: {
       paddingStart: 20,
     },
     footer: {
-      backgroundColor: '#03A6BD'
+      backgroundColor: 'white'
     },
     desc: {
       padding: 20,
       margin: 0,
-      maxHeight: 150 
+      maxHeight: 120 
     },
     btn: {
       backgroundColor: '#654321',
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
       fontFamily: 'sans-serif-condensed'
     },
     title: {
-      color: '#064C7F',
+      //color: '#064C7F',
       //color: 'white',
       fontSize: 30,
       fontWeight: 'bold',

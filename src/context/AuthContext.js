@@ -15,6 +15,7 @@ const AuthProvider = ({children}) => {
 
     const register = async({values}) => {
         setIsLoading(true)
+        values.type = "participant"
         const response = await instance.post('auth/register', 
         values
         ).catch(err => {

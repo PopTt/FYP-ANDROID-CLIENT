@@ -4,7 +4,7 @@ import { AuthContext } from '../../context/AuthContext'
 import { useNavigation } from '@react-navigation/native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
-const EventItem = ({name, status, description, organization, _id}) => {
+const EventItem = ({name, status, description, style, organization, _id}) => {
   const [loading, setLoading] = useState(false)
   const navigation = useNavigation()
 
@@ -28,7 +28,7 @@ const EventItem = ({name, status, description, organization, _id}) => {
                 </TouchableOpacity>
             </View>
             <View>
-                <Text style={{color: "red", fontSize: 16, fontWeight: 'bold', fontFamily: 'sans-serif-condensed'}}>{status}</Text>
+                <Text style={{color: style, fontSize: 16, fontWeight: 'bold', fontFamily: 'sans-serif-condensed'}}>{status}</Text>
             </View>
         </View>
         <View style={styles.footer}>

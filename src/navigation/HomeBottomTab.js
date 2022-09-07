@@ -6,6 +6,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import UserProfile from '../screens/home/UserProfile'
 import AttendanceList from '../screens/home/AttendanceList'
 import { AuthContext } from '../context/AuthContext'
+import { FlashMode } from "expo-camera";
 
 const Tab = createBottomTabNavigator()
 

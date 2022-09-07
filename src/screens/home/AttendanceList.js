@@ -28,6 +28,7 @@ const AttendanceList = ({navigation}) => {
                                     _id={item._id} 
                                     name={item.name}
                                     status={item.status ? "CLOSE" : "OPEN"}
+                                    style={item.status ? "red" : "green"}
                                     description={item.description}
                                     organization={item.organization.name}
         />

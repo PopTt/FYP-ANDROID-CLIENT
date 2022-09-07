@@ -40,7 +40,7 @@ const FaceRegister = () => {
 
       //}
       faceData.map((face, index) => {
-        if(face.leftEyeOpenProbability < 0.3 && face.rightEyeOpenProbability < 0.3){
+        if(face.leftEyeOpenProbability < 0.1 && face.rightEyeOpenProbability < 0.1){
           console.log(face.leftEyeOpenProbability)
           eyesBlinkCount.current = eyesBlinkCount.current + 1
         }

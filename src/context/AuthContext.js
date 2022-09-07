@@ -122,6 +122,24 @@ const AuthProvider = ({children}) => {
         setIsLoading(false)   
     }
 
+    const signAttendance = async(values) => {
+        setIsLoading(true)
+
+        const response = await instance.post('participant/sign/',
+        values, 
+        ).catch(err => {
+            if(err && err.response) {
+                Alert.alert(err.response.data.message)
+            }
+        })
+
+        if(response && response.data) {
+            getEvents()
+            Alert.alert(response.data.message)
+        }
+        setIsLoading(false)
+    }
+
     const isLogin = async() => {
         try {
             setIsLoading(true)
@@ -156,6 +174,7 @@ const AuthProvider = ({children}) => {
             login,
             getEvents,
             joinEvent,
+            signAttendance,
             logout,
             authState, 
             eventState

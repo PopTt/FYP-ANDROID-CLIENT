@@ -27,7 +27,7 @@ const UserProfile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B6FCE8',
+    backgroundColor: '#E2F6FB',
     justifyContent: 'center'
   },
   btn: {

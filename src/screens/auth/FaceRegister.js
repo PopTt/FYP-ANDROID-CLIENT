@@ -19,7 +19,7 @@ const FaceRegister = () => {
 
   useEffect(() => {
     (async () => {
-      MediaLibrary.requestPermissionsAsync()
+      //MediaLibrary.requestPermissionsAsync()
       const {status} = await Camera.requestCameraPermissionsAsync()
       setCameraPermission(status === "granted")
     })()
@@ -90,7 +90,7 @@ const FaceRegister = () => {
           mode: FaceDetector.FaceDetectorMode.accurate,
           detectLandmarks: FaceDetector.FaceDetectorLandmarks.all,
           runClassifications: FaceDetector.FaceDetectorClassifications.all,
-          minDetectionInterval: 200,
+          minDetectionInterval: 100,
           tracking: true
         }}>
       </Camera>

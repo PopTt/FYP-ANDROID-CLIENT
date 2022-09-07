@@ -3,10 +3,11 @@ import React, {useState, useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import Octicons from 'react-native-vector-icons/Octicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import EventItem from '../../components/event/EventItem'
 
 const AttendanceList = ({navigation}) => {
-  const {authState, eventState, joinEvent} = useContext(AuthContext)
+  const {authState, eventState, joinEvent, getEvents} = useContext(AuthContext)
   const [visible, setVisible] = useState(false)
   const [invitationPin, setInvitationPin] = useState('')
 
@@ -22,6 +23,9 @@ const AttendanceList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <TouchableOpacity onPress={() => getEvents()} style={{alignItems: 'center'}}>
+        <FontAwesome name='refresh' size={30} />
+      </TouchableOpacity>
       <FlatList 
         data={eventState.events}
         renderItem={({item}) => <EventItem

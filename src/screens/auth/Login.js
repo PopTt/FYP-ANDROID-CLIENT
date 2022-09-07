@@ -5,7 +5,7 @@ import LoginForm from '../../components/auth/LoginForm'
 const Login = ({navigation}) => {
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
+      <Text style={styles.title}>Login</Text>
       <LoginForm />
       <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('RegisterScreen')}>
         <Text>Back to Register</Text>
@@ -19,14 +19,22 @@ export default Login
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B3DDFC',
+    backgroundColor: '#F1F9FB',
     alignItems: 'center',
     justifyContent: 'center'
   },
   btn: {
+    margin: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
     padding: 10
-  }
+  },
+  title: {
+    //color: '#064C7F',
+    //color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
+    fontFamily: 'sans-serif-condensed'
+  },
 })

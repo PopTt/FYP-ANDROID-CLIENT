@@ -21,48 +21,50 @@ const LoginForm = () => {
         >
         {({values, handleChange, handleBlur, errors, touched, isValid, handleSubmit})=>(
             <View style={styles.container}>
-                <View style={styles.imputField}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput onChangeText={handleChange('email')}
-                        style={styles.input}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        placeholder="Email"/>
-                    {(errors.email && touched.email) &&
-                        <Text style={styles.errorMsg}>{errors.email}</Text>
-                    }
-                    {(!errors.email && values.email!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
-                </View>
+                <View style={styles.inner_container}>
+                    <View style={styles.imputField}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput onChangeText={handleChange('email')}
+                            style={styles.input}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            placeholder="Email"/>
+                        {(errors.email && touched.email) &&
+                            <Text style={styles.errorMsg}>{errors.email}</Text>
+                        }
+                        {(!errors.email && values.email!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
 
-                <View style={styles.imputField}>
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput onChangeText={handleChange('password')}
-                        style={styles.input}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder="Password"
-                        secureTextEntry={true}/>
-                    {(errors.password && touched.password) &&
-                        <Text style={styles.errorMsg}>{errors.password}</Text>
-                    }
-                    {(!errors.password && values.password!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
+                    <View style={styles.imputField}>
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput onChangeText={handleChange('password')}
+                            style={styles.input}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            placeholder="Password"
+                            secureTextEntry={true}/>
+                        {(errors.password && touched.password) &&
+                            <Text style={styles.errorMsg}>{errors.password}</Text>
+                        }
+                        {(!errors.password && values.password!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
+                    <Button
+                        color="#064C7F"
+                        title="LOGIN"
+                        disabled={!isValid}
+                        onPress={handleSubmit}
+                    />
                 </View>
-                <Button
-                    color="#064C7F"
-                    title="LOGIN"
-                    disabled={!isValid}
-                    onPress={handleSubmit}
-                />
             </View>
         )}
     </Formik>
@@ -70,9 +72,13 @@ const LoginForm = () => {
 }
 
 const styles = StyleSheet.create({
-  container:{
-      marginTop: 40
-  },
+    container:{
+        marginTop: 20,
+        borderWidth: 2
+    },
+    inner_container : {
+      margin: 16
+    },
 
   label:{
       color: '#064C7F',
@@ -86,7 +92,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   imputField:{
-      marginBottom: 15
+      marginBottom: 15,
+      width: 250
   },
   errorMsg:{
     fontSize: 12,

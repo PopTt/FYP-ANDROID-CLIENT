@@ -24,84 +24,86 @@ const RegisterForm = () => {
         {({values, handleChange, handleBlur, errors, touched, isValid, handleSubmit})=>(
             
             <View style={styles.container}>
-                <View style={styles.inputField}>
-                    <Text style={styles.label}>Username</Text>
-                    <TextInput onChangeText={handleChange('username')}
-                        style={styles.input}
-                        onBlur={handleBlur('username')}
-                        value={values.username}
-                        placeholder="Username"/>
-                    {(errors.username && touched.username) &&
-                        <Text style={styles.errorMsg}>{errors.username}</Text>
-                    }
-                    {(!errors.username && values.username!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
-                </View>
+                <View style={styles.inner_container}>
+                    <View style={styles.inputField}>
+                        <Text style={styles.label}>Username</Text>
+                        <TextInput onChangeText={handleChange('username')}
+                            style={styles.input}
+                            onBlur={handleBlur('username')}
+                            value={values.username}
+                            placeholder="Username"/>
+                        {(errors.username && touched.username) &&
+                            <Text style={styles.errorMsg}>{errors.username}</Text>
+                        }
+                        {(!errors.username && values.username!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
 
-                <View style={styles.inputField}>
-                    <Text style={styles.label}>Email</Text>
-                    <TextInput onChangeText={handleChange('email')}
-                        style={styles.input}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        placeholder="Email"/>
-                    {(errors.email && touched.email) &&
-                        <Text style={styles.errorMsg}>{errors.email}</Text>
-                    }
-                    {(!errors.email && values.email!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
-                </View>
+                    <View style={styles.inputField}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput onChangeText={handleChange('email')}
+                            style={styles.input}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            placeholder="Email"/>
+                        {(errors.email && touched.email) &&
+                            <Text style={styles.errorMsg}>{errors.email}</Text>
+                        }
+                        {(!errors.email && values.email!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
 
-                <View style={styles.inputField}>
-                    <Text style={styles.label}>Password</Text>
-                    <TextInput onChangeText={handleChange('password')}
-                        style={styles.input}
-                        onBlur={handleBlur('password')}
-                        value={values.password}
-                        placeholder="Password"
-                        secureTextEntry={true}/>
-                    {(errors.password && touched.password) &&
-                        <Text style={styles.errorMsg}>{errors.password}</Text>
-                    }
-                    {(!errors.password && values.password!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
+                    <View style={styles.inputField}>
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput onChangeText={handleChange('password')}
+                            style={styles.input}
+                            onBlur={handleBlur('password')}
+                            value={values.password}
+                            placeholder="Password"
+                            secureTextEntry={true}/>
+                        {(errors.password && touched.password) &&
+                            <Text style={styles.errorMsg}>{errors.password}</Text>
+                        }
+                        {(!errors.password && values.password!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
+                    <View style={styles.inputField}>
+                        <Text style={styles.label}>Confirm Password</Text>
+                        <TextInput onChangeText={handleChange('confirmPassword')}
+                            style={styles.input}
+                            onBlur={handleBlur('confirmPassword')}
+                            value={values.confirmPassword}
+                            placeholder="Confirm Password"
+                            secureTextEntry={true}/>
+                        {(errors.confirmPassword && touched.confirmPassword) &&
+                            <Text style={styles.errorMsg}>{errors.confirmPassword}</Text>
+                        }
+                        {(!errors.confirmPassword && values.confirmPassword!='') &&
+                            <FontAwesome
+                                name='check'
+                                color='green'
+                                size={15}/>
+                        }
+                    </View>
+                    <Button
+                        color="#064C7F"
+                        title="Register"
+                        disabled={!isValid}
+                        onPress={handleSubmit}
+                    />
                 </View>
-                <View style={styles.inputField}>
-                    <Text style={styles.label}>Confirm Password</Text>
-                    <TextInput onChangeText={handleChange('confirmPassword')}
-                        style={styles.input}
-                        onBlur={handleBlur('confirmPassword')}
-                        value={values.confirmPassword}
-                        placeholder="Confirm Password"
-                        secureTextEntry={true}/>
-                    {(errors.confirmPassword && touched.confirmPassword) &&
-                        <Text style={styles.errorMsg}>{errors.confirmPassword}</Text>
-                    }
-                    {(!errors.confirmPassword && values.confirmPassword!='') &&
-                        <FontAwesome
-                            name='check'
-                            color='green'
-                            size={15}/>
-                    }
-                </View>
-                <Button
-                    color="#064C7F"
-                    title="Register"
-                    disabled={!isValid}
-                    onPress={handleSubmit}
-                />
             </View>
         )}
     </Formik>
@@ -110,9 +112,12 @@ const RegisterForm = () => {
 
 const styles = StyleSheet.create({
   container:{
-      marginTop: 40
+      marginTop: 20,
+      borderWidth: 2
   },
-
+  inner_container : {
+    margin: 16
+  },
   label:{
       color: '#064C7F',
       fontWeight: 'bold',
@@ -125,7 +130,8 @@ const styles = StyleSheet.create({
     padding: 5
   },
   inputField:{
-      marginBottom: 15
+      marginBottom: 15,
+      width: 250
   },
   errorMsg:{
     fontSize: 12,

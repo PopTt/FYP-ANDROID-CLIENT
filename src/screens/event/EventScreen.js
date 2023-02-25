@@ -88,7 +88,7 @@ const EventScreen = ({event_id}) => {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         backgroundColor: 'white',
-                        alignItems: 'center',
+                        //alignItems: 'center',
                         marginVertical: 8,
                         marginHorizontal: 16,
                         elevation: 6,
@@ -116,7 +116,7 @@ const EventScreen = ({event_id}) => {
                         }
                     </TouchableOpacity> 
                     }
-                    keyExtractor={item => item}
+                    keyExtractor={item => item._id}
                     />
                 </View>
         )

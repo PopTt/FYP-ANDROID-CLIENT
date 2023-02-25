@@ -59,7 +59,7 @@ const ManagerList = ({event_id}) => {
                 </Text>
           </View> 
           }
-          keyExtractor={item => item}
+          keyExtractor={item => item._id}
         />
     </SafeAreaView>
   )

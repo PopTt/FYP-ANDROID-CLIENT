@@ -116,7 +116,7 @@ const EventScreen = ({event_id}) => {
                         }
                     </TouchableOpacity> 
                     }
-                    keyExtractor={item => item._id}
+                    keyExtractor={item => item}
                     />
                 </View>
         )

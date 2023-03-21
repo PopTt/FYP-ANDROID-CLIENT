@@ -15,7 +15,20 @@ const FaceScanner = () => {
   const [faceDetected, setFaceDetected] = useState(false)
   const eyesBlinkCount = useRef(0)
   const cameraRef = useRef(null)
+  const detectorRef = useRef(null);
   const navigation = useNavigation()
+
+
+  useEffect(() => {
+    return () => {
+      if (cameraRef.current) {
+        cameraRef.current.pausePreview();
+      }
+      if (detectorRef.current) {
+        detectorRef.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     (async () => {
@@ -24,6 +37,18 @@ const FaceScanner = () => {
       setCameraPermission(status === "granted")
     })()
   }, [])
+
+  const takePicture = async() => {
+    if(cameraRef) {
+      try {
+        const data = await cameraRef.current.takePictureAsync()
+        //setImages(prevArray => [...prevArray, data.uri])
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   useEffect(() => {
     if(faceData.length !== 0){
@@ -40,9 +65,11 @@ const FaceScanner = () => {
 
       //}
       faceData.map((face, index) => {
-        if(face.leftEyeOpenProbability < 0.1 && face.rightEyeOpenProbability < 0.1){
-          console.log(face.leftEyeOpenProbability)
+        if(face.leftEyeOpenProbability < 0.1 && face.rightEyeOpenProbability < 0.1 && eyesBlinkCount.current < 3){
+          //console.log(face.leftEyeOpenProbability)
           eyesBlinkCount.current = eyesBlinkCount.current + 1
+          if(eyesBlinkCount.current >= 3)
+            takePicture()
         }
       })
     }else{
@@ -53,18 +80,6 @@ const FaceScanner = () => {
 
   if(cameraPermission === false) {
     return <Text>No access to camera</Text>;
-  }
-  
-  const takePicture = async() => {
-    if(cameraRef) {
-      try {
-        const data = await cameraRef.current.takePictureAsync()
-        //setImages(prevArray => [...prevArray, data.uri])
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
   }
 
   const handleFacesDetected = ({faces}) => {

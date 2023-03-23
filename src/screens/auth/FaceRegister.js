@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Alert, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Alert, Dimensions, TouchableOpacity, Modal } from 'react-native'
 import React, {useState, useEffect, useRef} from 'react'
 import { Camera } from 'expo-camera'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,9 +9,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const FaceRegister = () => {
+  const [showModal, setShowModal] = useState(false);
   const [cameraPermission, setCameraPermission] = useState()
   const [faceData, setFaceData] = useState([])
-  const [images, setImages] = useState([])
   const [faceDetected, setFaceDetected] = useState(false)
   const eyesBlinkCount = useRef(0)
   const cameraRef = useRef(null)
@@ -38,17 +38,65 @@ const FaceRegister = () => {
     })()
   }, [])
 
-  const takePicture = async() => {
-    if(cameraRef.current) {
+  // useEffect(() => {
+  //   console.log(images);
+  // }, [images]);
+
+//   async function saveToAlbum(uri) {
+//   
+//   const { status } = await MediaLibrary.requestPermissionsAsync();
+//   if (status === 'granted') {
+//    
+//     const asset = await MediaLibrary.createAssetAsync(uri);
+//     console.log('Photo saved to album:', asset.uri);
+//   } else {
+//     console.log('Permission to access album was denied');
+//   }
+// }
+
+  // const takePicture = async() => {
+  //   if(cameraRef.current) {
+  //     try {
+  //       const data = await cameraRef.current.takePictureAsync()
+  //       //setImages(prevArray => [...prevArray, data.uri])
+  //       console.log(data)
+  //       await saveToAlbum(data.uri)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  // }
+  const takePicture = async () => {
+    if (cameraRef.current) {
       try {
-        const data = await cameraRef.current.takePictureAsync()
-        //setImages(prevArray => [...prevArray, data.uri])
-        console.log(data)
+        setShowModal(true)
+        let photos = [];
+        //Alert.alert('Do not move your face')
+        for (let i = 0; i < 20; i++) {
+          if(eyesBlinkCount.current < 3){
+            break;
+          }else{
+            const data = await cameraRef.current.takePictureAsync();
+            photos.push(data.uri);
+          }
+        }
+        console.log(photos)
+        setShowModal(false)
+        if(photos.length >= 20)
+          Alert.alert('Register successfully')
+        else
+          Alert.alert('fail to register')
+
+
+        eyesBlinkCount.current = 0
+        //setImages(photos);
+        // send photos to server
+        //await sendPhotos(photos);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     }
-  }
+  };
 
   useEffect(() => {
     if(faceData.length !== 0){
@@ -109,6 +157,16 @@ const FaceRegister = () => {
           tracking: true
         }}>
       </Camera>
+
+      <Modal visible={showModal} transparent>
+      <View style={styles.centeredView}>
+        <View style={styles.modal}>
+          <Text style={styles.modalText}>Warning: DO NOT MOVE YOUR FACE</Text>
+        </View>
+      </View>
+        
+      </Modal>
+
       <View style={styles.footer}>
         <View style={styles.footer_container}>
           <View style={styles.checkBox}>
@@ -209,6 +267,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold', 
     fontFamily: 'sans-serif-condensed',
     margin: 3
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modal: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 40,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    color: "red", 
+    fontSize: 28, 
+    fontWeight: 'bold', 
+    fontFamily: 'sans-serif-condensed',
+    textAlign: 'center',
   }
 })
 export default FaceRegister
@@ -245,19 +331,5 @@ export default FaceRegister
 //     // handle server response
 //   } catch (error) {
 //     console.log(error);
-//   }
-// }
-
-// import * as MediaLibrary from 'expo-media-library';
-
-// async function saveToAlbum(uri) {
-//   // 获取相册访问权限
-//   const { status } = await MediaLibrary.requestPermissionsAsync();
-//   if (status === 'granted') {
-//     // 将照片保存到相册
-//     const asset = await MediaLibrary.createAssetAsync(uri);
-//     console.log('Photo saved to album:', asset.uri);
-//   } else {
-//     console.log('Permission to access album was denied');
 //   }
 // }

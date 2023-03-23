@@ -39,7 +39,7 @@ const FaceRegister = () => {
   }, [])
 
   const takePicture = async() => {
-    if(cameraRef) {
+    if(cameraRef.current) {
       try {
         const data = await cameraRef.current.takePictureAsync()
         //setImages(prevArray => [...prevArray, data.uri])
@@ -212,3 +212,52 @@ const styles = StyleSheet.create({
   }
 })
 export default FaceRegister
+
+
+// const takePicture = async () => {
+//   if (cameraRef) {
+//     try {
+//       let photos = [];
+//       for (let i = 0; i < 30; i++) {
+//         const data = await cameraRef.current.takePictureAsync();
+//         photos.push(data.uri);
+//       }
+//       // send photos to server
+//       await sendPhotos(photos);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+// };
+
+// const sendPhotos = async (photos) => {
+//   try {
+//     const response = await fetch('<your_server_url>', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({
+//         photos: photos
+//       })
+//     });
+//     const data = await response.json();
+//     // handle server response
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
+
+// import * as MediaLibrary from 'expo-media-library';
+
+// async function saveToAlbum(uri) {
+//   // 获取相册访问权限
+//   const { status } = await MediaLibrary.requestPermissionsAsync();
+//   if (status === 'granted') {
+//     // 将照片保存到相册
+//     const asset = await MediaLibrary.createAssetAsync(uri);
+//     console.log('Photo saved to album:', asset.uri);
+//   } else {
+//     console.log('Permission to access album was denied');
+//   }
+// }

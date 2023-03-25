@@ -140,6 +140,22 @@ const AuthProvider = ({children}) => {
         setIsLoading(false)
     }
 
+    const registerFace = async(values) => {
+        setIsLoading(true)
+        const response = await instance.post('auth/registerFace', 
+        values
+        ).catch(err => {
+            if(err && err.response) {
+                Alert.alert(err.response.data.message)
+            }
+        })
+
+        if(response && response.data) {
+            Alert.alert(response.data.message)
+        }
+        setIsLoading(false)
+    }
+
     const isLogin = async() => {
         try {
             setIsLoading(true)
@@ -175,6 +191,7 @@ const AuthProvider = ({children}) => {
             getEvents,
             joinEvent,
             signAttendance,
+            registerFace,
             logout,
             authState, 
             eventState

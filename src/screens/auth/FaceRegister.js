@@ -1,5 +1,7 @@
-import { View, Text, StyleSheet, Alert, Dimensions, TouchableOpacity, Modal } from 'react-native'
-import React, {useState, useEffect, useRef} from 'react'
+import { View, Text, StyleSheet, Alert, Dimensions, TouchableOpacity, Modal, Image } from 'react-native'
+import React, {useState, useEffect, useRef, useContext} from 'react'
+import * as FileSystem from 'expo-file-system';
+import FormData from 'form-data';
 import { Camera } from 'expo-camera'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import * as FaceDetector from 'expo-face-detector'
@@ -7,11 +9,14 @@ import * as MediaLibrary from 'expo-media-library'
 import { useNavigation } from '@react-navigation/native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { AuthContext } from '../../context/AuthContext'
 
 const FaceRegister = () => {
+  const {authState, registerFace} = useContext(AuthContext)
   const [showModal, setShowModal] = useState(false);
   const [cameraPermission, setCameraPermission] = useState()
   const [faceData, setFaceData] = useState([])
+  const [image, setImage] = useState()
   const [faceDetected, setFaceDetected] = useState(false)
   const eyesBlinkCount = useRef(0)
   const cameraRef = useRef(null)
@@ -72,20 +77,31 @@ const FaceRegister = () => {
         setShowModal(true)
         let photos = [];
         //Alert.alert('Do not move your face')
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
           if(eyesBlinkCount.current < 3){
             break;
           }else{
             const data = await cameraRef.current.takePictureAsync();
-            photos.push(data.uri);
+            const base64 = await FileSystem.readAsStringAsync(data.uri, { encoding: FileSystem.EncodingType.Base64 });
+            photos.push(base64);
           }
         }
-        console.log(photos)
+        //console.log(photos)
+
         setShowModal(false)
-        if(photos.length >= 20)
-          Alert.alert('Register successfully')
-        else
+        if(photos.length >= 10){
+          //setImage(photos[0])
+          //console.log(photos[0])
+          Alert.alert('Face registration now, please wait a few minutes..')
+          await registerFace({
+            imageURIs: photos,
+            user_id: authState.id,
+            secret: 'testing123'
+          })
+        }
+        else{
           Alert.alert('fail to register')
+        }
 
 
         eyesBlinkCount.current = 0
@@ -134,6 +150,7 @@ const FaceRegister = () => {
     setFaceData(faces)
     //console.log(faces)
   }
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -200,6 +217,7 @@ const FaceRegister = () => {
             }
           </View>
         </View>
+        {/* <Image source={{ uri: `data:image/jpeg;base64,${image}` }} style={{ width: 50, height: 50 }} /> */}
         
       </View>
     </SafeAreaView>

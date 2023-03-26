@@ -3,23 +3,21 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text } from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import Octicons from 'react-native-vector-icons/Octicons'
-import EventScreen from '../screens/event/EventScreen'
-import ManagerList from "../screens/event/ManagerList";
-import FlowAttendance from "../screens/event/FlowAttendance";
+import ManagerProfile from "../screens/home/ManagerProfile";
+import ManagerAttendanceList from "../screens/home/ManagerAttendanceList";
 import { AuthContext } from '../context/AuthContext'
 
 const Tab = createBottomTabNavigator()
 
-const EventBottomTab = ({event_id}) => {
+const ManagerHomeBottomTab = () => {
 
   const {authState} = useContext(AuthContext)
 
   return (
     <Tab.Navigator
-        initialRouteName={"EventDetailScreen"}
+        initialRouteName={"EventListScreen"}
         screenOptions={{
-            headerShown: false,
+            headerShown: true,
             tabBarShowLabel: false,
             tabBarStyle: {
               backgroundColor: 'white'
@@ -27,31 +25,18 @@ const EventBottomTab = ({event_id}) => {
             tabBarInactiveTintColor: 'black',
             tabBarActiveTintColor: 'blue'
         }}>
-        <Tab.Screen name="EventDetailScreen" options={{
+        <Tab.Screen name={"EventListScreen"} component={ManagerAttendanceList} options={{
           tabBarIcon: ({color, size})=>(
             <MaterialIcons name="event-note" color={color} size={size} />
           )
-        }}>
-            {() => <EventScreen event_id={event_id}/>}
-        </Tab.Screen>
-
-        <Tab.Screen name="FlowAttendanceScreen" options={{
-          tabBarIcon: ({color, size})=>(
-            <Octicons name="workflow" color={color} size={size} />
-          )
-        }}>
-            {() => <FlowAttendance event_id={event_id}/>}
-        </Tab.Screen>
-
-        <Tab.Screen name="ManagerList" options={{
+        }}/>
+        <Tab.Screen name={"userProfile"} component={ManagerProfile} options={{
           tabBarIcon: ({color, size})=>(
             <AntDesign name="profile" color={color} size={size}/>
           )
-        }}>
-            {() => <ManagerList event_id={event_id}/>}
-        </Tab.Screen>
+        }}/>
      </Tab.Navigator>
   )
 }
 
-export default EventBottomTab
+export default ManagerHomeBottomTab

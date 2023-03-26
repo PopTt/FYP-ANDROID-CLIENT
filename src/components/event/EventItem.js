@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, Alert, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native'
-import React, {useState, useContext} from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import React, {useState} from 'react'
 import { useNavigation } from '@react-navigation/native'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 

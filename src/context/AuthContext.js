@@ -30,10 +30,10 @@ const AuthProvider = ({children}) => {
         setIsLoading(false)
     }
 
-    const login = async({values}) =>{
+    const login = async({values}, type) =>{
         setIsLoading(true)
 
-        values.type = "participant"
+        values.type = type
         const response = await instance.post('auth/login', 
         values
         ).catch(err => {
@@ -57,7 +57,10 @@ const AuthProvider = ({children}) => {
                 acctype: response.data.data.type
             })
             //console.log(response.data.data._id)
-            getEvents()
+            if(response.data.data.type == 'participant')
+                await getEvents()
+            else if(response.data.data.type == 'Manager')
+                await getEventsManager()
             Alert.alert(response.data.message)
         }
         
@@ -84,7 +87,8 @@ const AuthProvider = ({children}) => {
             const response = await instance.get('data/getEventByUserID/'+ id, 
             ).catch(err => {
                 if(err && err.response) {
-                    Alert.alert(err.response.data.message)
+                    //Alert.alert(err.response.data.message)
+                    //Alert.alert("")
                 }
             })
 
@@ -100,13 +104,39 @@ const AuthProvider = ({children}) => {
         }
     }
 
-    const joinEvent = async(invitationPin) => {
+    const getEventsManager = async() => {
+        try {
+            setIsLoading(true)
+            let id = await AsyncStorage.getItem('id')
+
+            const response = await instance.get('data/getEventByManagerID/'+ id, 
+            ).catch(err => {
+                if(err && err.response) {
+                    //Alert.alert(err.response.data.message)
+                    //Alert.alert("no")
+                }
+            })
+
+            if(response && response.data) {
+                eventDispatch({
+                    type: 'RETRIEVE_EVENTS',
+                    events: response.data.data
+                })
+            }
+            setIsLoading(false)
+        } catch (e) {
+            console.log(`getEvents in error ${e}`)
+        }
+    }
+
+    const joinEvent = async(invitationPin, username) => {
         setIsLoading(true)
         let id = await AsyncStorage.getItem('id')
 
         const response = await instance.post('participant/join',
         {
             'user_id': id,
+            'username': username,
             'invitationPin': invitationPin
         }
         ).catch(err => {
@@ -136,6 +166,68 @@ const AuthProvider = ({children}) => {
         if(response && response.data) {
             getEvents()
             Alert.alert(response.data.message)
+        }
+        setIsLoading(false)
+    }
+
+    const openEvent = async(event_id) => {
+        setIsLoading(true)
+
+        const response = await instance.post('admin/openEvent',
+        {
+            'event_id': event_id
+        }, 
+        ).catch(err => {
+            if(err && err.response) {
+                Alert.alert(err.response.data.message)
+            }
+        })
+
+        if(response && response.data) {
+            getEventsManager()
+            Alert.alert('Open Event Successfully')
+        }
+        setIsLoading(false)
+    }
+
+    const closeEvent = async(event_id) => {
+        setIsLoading(true)
+
+        const response = await instance.post('admin/closeEvent',
+        {
+            'event_id': event_id
+        }, 
+        ).catch(err => {
+            if(err && err.response) {
+                Alert.alert(err.response.data.message)
+            }
+        })
+
+        if(response && response.data) {
+            getEventsManager()
+            Alert.alert('Close Event Successfully')
+        }
+        setIsLoading(false)
+    }
+
+    const updateAttendance = async(event_id, user_id, status) => {
+        setIsLoading(true)
+
+        const response = await instance.post('manager/updateAttendance',
+        {
+            'event_id': event_id,
+            'user_id': user_id,
+            'status': status
+        }, 
+        ).catch(err => {
+            if(err && err.response) {
+                Alert.alert(err.response.data.message)
+            }
+        })
+
+        if(response && response.data) {
+            getEventsManager()
+            Alert.alert('Update Attendance Successfully')
         }
         setIsLoading(false)
     }
@@ -171,7 +263,10 @@ const AuthProvider = ({children}) => {
                 email: email,
                 acctype: type
             })
-            await getEvents()
+            if(type && type == 'participant')
+                await getEvents()
+            else if(type && type == 'Manager')
+                await getEventsManager()
             setIsLoading(false)
         }catch(e){
             console.log(`isLogin in error ${e}`)
@@ -189,8 +284,12 @@ const AuthProvider = ({children}) => {
             register, 
             login,
             getEvents,
+            getEventsManager,
             joinEvent,
             signAttendance,
+            openEvent,
+            closeEvent,
+            updateAttendance,
             registerFace,
             logout,
             authState, 

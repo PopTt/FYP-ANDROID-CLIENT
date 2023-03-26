@@ -6,14 +6,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import EventItem from '../../components/event/EventItem'
 
-const AttendanceList = ({navigation}) => {
-  const {authState, eventState, joinEvent, getEvents} = useContext(AuthContext)
+const ManagerAttendanceList = ({navigation}) => {
+  const {authState, eventState, joinEvent, getEventsManager} = useContext(AuthContext)
   const [visible, setVisible] = useState(false)
   const [invitationPin, setInvitationPin] = useState('')
 
   const handleSubmit = () => {
     if(invitationPin.length > 1) {
-      joinEvent(invitationPin, authState.username)
+      joinEvent(invitationPin)
       setInvitationPin('')
       setVisible(!visible)
     } else{
@@ -23,7 +23,7 @@ const AttendanceList = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => getEvents()} style={{alignItems: 'center'}}>
+      <TouchableOpacity onPress={() => getEventsManager()} style={{alignItems: 'center'}}>
         <FontAwesome name='refresh' size={30} />
       </TouchableOpacity>
       <FlatList 
@@ -40,32 +40,6 @@ const AttendanceList = ({navigation}) => {
                     }
         keyExtractor={item => item._id}
       />
-      <View style={styles.footer}>
-        {visible ? (
-          <View style={styles.inputModel}>
-            <TextInput 
-              style={styles.input}
-              value={invitationPin}
-              keyboardType='ascii-capable'
-              placeholder="INVITATION PIN"
-              maxLength={12}
-              autoCorrect={false}
-              onChangeText={text => setInvitationPin(text)}
-              />
-
-            <TouchableOpacity onPress={handleSubmit} style={styles.btn}>
-              <AntDesign name='checkcircle' color={"green"} size={40}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => setVisible(!visible)} style={styles.btn}>
-              <AntDesign name='closecircle' color={"red"} size={40}/>
-            </TouchableOpacity>
-          </View>
-        ) :
-          <TouchableOpacity onPress={() => setVisible(!visible)} style={styles.btn}>
-            <Octicons name='diff-added' size={50}/>
-          </TouchableOpacity>
-        }
-      </View>
     </View>
   )
 }
@@ -102,4 +76,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default AttendanceList
+export default ManagerAttendanceList

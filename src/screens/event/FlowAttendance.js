@@ -9,7 +9,7 @@ import moment from 'moment/moment'
 import React, {useContext} from 'react'
 
 
-const EventScreen = ({event_id}) => {
+const FlowAttendance = ({event_id}) => {
   const {authState, eventState} = useContext(AuthContext)
   const navigation = useNavigation()
 
@@ -43,35 +43,49 @@ const EventScreen = ({event_id}) => {
             <Text style={styles.back_text}>BACK</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.middle}>
-        <Text style={styles.title}>{targetEvent.name}</Text>
-        <View style={styles.type}>
-          <Text style={styles.type_text}>{targetEvent.organization.name}</Text>
+        <View style={{elevation: 3, backgroundColor: 'white'}}>
+            <Text style={{padding: 5, color: '#064C7F', fontSize: 18, fontWeight: 'bold', fontFamily: 'sans-serif-condensed'}}>
+                Flow to Take Attendance 
+            </Text>
         </View>
-      </View>
-      <View style={{paddingBottom: 5}}>
-        <ScrollView style={styles.bottom}>
-          <Text style={styles.text}>{targetEvent.description}</Text>
-        </ScrollView>
-      </View>
-      <View style={{
-        padding: 25,
-        justifyContent: 'center',
-        marginVertical: 20,
-        marginHorizontal: 16,
-        elevation: 6,
-        backgroundColor: targetRecord.status == 'Absent' ? '#F1948A' : '#7DCEA0'
-      }}>
-        <Text style={styles.record_title}>Attendance Record</Text>
-        <Text style={styles.record_text}>STATUS : {targetRecord.status}</Text>
-        <Text style={styles.record_text}>Joined Date : {
-          moment(targetRecord.joinedDate)
-              .utcOffset('+8:00')
-              .format('YYYY-MM-DD hh:mm:ss a')}
-        </Text>
-        <Text style={styles.record_text}>Location : {targetRecord.location || 'UNDEFINED'}</Text>
-        <Text style={styles.record_text}>IP Address : {targetRecord.IPAddress || 'UNDEFINED'}</Text>
-      </View>
+                <FlatList 
+                    data={targetEvent.method}
+                    renderItem={({item}) =>
+                    <TouchableOpacity style={{
+                        padding: 20,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        backgroundColor: 'white',
+                        //alignItems: 'center',
+                        marginVertical: 8,
+                        marginHorizontal: 16,
+                        elevation: 6,
+                        borderWidth: 1
+                        }}
+                        onPress={() => handleClick(item)}>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        {
+                            item == 'QR CODE' ? (
+                            <AntDesign name='qrcode' size={35} color='green'/>
+                            ) : (
+                            <MaterialCommunityIcons name='face-recognition' size={35} color='green'/>
+                            )
+                        }
+                            <Text style={styles.method_text}>
+                            {item}
+                            </Text>
+                        </View>
+                        {
+                        targetRecord.status === 'Absent' ? (
+                            <AntDesign name='closecircle' size={50} color='red' />
+                        ) : (
+                            <AntDesign name='checkcircle' size={50} color='green' />
+                        )
+                        }
+                    </TouchableOpacity> 
+                    }
+                    keyExtractor={item => item}
+                    />
     </SafeAreaView>
   )
 }
@@ -98,7 +112,7 @@ const styles  = StyleSheet.create({
   bottom: {
     padding: 20,
     margin: 0,
-    maxHeight: 180
+    maxHeight: 140
   },
   title: {
     color: '#064C7F',
@@ -152,4 +166,4 @@ const styles  = StyleSheet.create({
   },
 })
 
-export default EventScreen
+export default FlowAttendance

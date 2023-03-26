@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, {useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext'
 
-const UserProfile = ({navigation}) => {
+const ManagerProfile = ({navigation}) => {
   const {logout, authState} = useContext(AuthContext)
   return (
     <View style={styles.container}>
@@ -20,9 +20,6 @@ const UserProfile = ({navigation}) => {
       </View>
       <TouchableOpacity style={styles.btn} onPress={()=>logout()}>
         <Text>logout</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('FaceRegisterScreen')}>
-        <Text>Register your face</Text>
       </TouchableOpacity>
     </View>
   )
@@ -57,4 +54,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default UserProfile
+export default ManagerProfile

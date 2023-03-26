@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { AuthContext } from '../context/AuthContext'
 import HomeStack from './HomeStack'
 import AuthStack from './AuthStack'
+import ManagerHomeStack from './ManagerHomeStack'
 
 
 const AppStack = () => {
@@ -19,7 +20,7 @@ const AppStack = () => {
   
     return (
       <NavigationContainer>
-        {authState.id === null ? <AuthStack/> : <HomeStack />}
+        {authState.id === null ? <AuthStack/> : authState.acctype === 'participant' ? <HomeStack /> : <ManagerHomeStack />}
       </NavigationContainer>
     )
 }

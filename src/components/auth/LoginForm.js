@@ -1,12 +1,14 @@
-import { View, Text, TouchableOpacity, StyleSheet, Button, TextInput } from 'react-native'
-import React, {useContext} from 'react'
+import { View, Text, TouchableOpacity, StyleSheet, Button, TextInput} from 'react-native'
+import React, {useState, useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import {loginValidation} from '../auth/inputValidation'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import { Formik } from 'formik'
+import { Picker } from '@react-native-picker/picker';
 
 const LoginForm = () => {
   const {login} = useContext(AuthContext)
+  const [selectedType, setSelectedType] = useState('participant')
 
   return (
     <Formik
@@ -15,7 +17,7 @@ const LoginForm = () => {
             password: ''
         }}
         onSubmit={values => {
-            login({values})
+            login({values}, selectedType)
         }}
         validationSchema={loginValidation}
         >
@@ -57,6 +59,19 @@ const LoginForm = () => {
                                 color='green'
                                 size={15}/>
                         }
+                    </View>
+
+                    <View style={styles.imputField}>
+                        <Text style={styles.label}>Account Type</Text>
+                        <Picker
+                            style={{ backgroundColor: 'white', color: 'black', borderWidth: 1, borderRadius: 5 }}
+                            selectedValue={selectedType}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedType(itemValue)
+                            }>
+                            <Picker.Item label="Participant" value="participant" />
+                            <Picker.Item label="Manager" value="Manager" />
+                        </Picker>
                     </View>
                     <Button
                         color="#064C7F"

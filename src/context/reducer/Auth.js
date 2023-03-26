@@ -13,7 +13,7 @@ const loginReducer = (prevState, action) => {
                 id: action.id,
                 username: action.username,
                 email: action.email,
-                acctype: action.type
+                acctype: action.acctype
             }
         
         case 'LOGOUT':

@@ -5,28 +5,27 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment/moment'
 import React, {useContext} from 'react'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import { useNavigation} from '@react-navigation/native'
 
 
-const AttendanceMemberList = () => {
-  const route = useRoute()
+const AttendanceMemberList = ({event_id}) => {
   const {authState, eventState, openEvent, closeEvent, updateAttendance} = useContext(AuthContext)
   const navigation = useNavigation()
 
   const targetEvent = eventState.events.find(item => {
-    return item._id == route.params.event_id
+    return item._id == event_id
   })
 
   const clickOpenEvent = () =>{
-    openEvent(route.params.event_id)
+    openEvent(event_id)
   }
 
   const clickCloseEvent = () =>{
-    closeEvent(route.params.event_id)
+    closeEvent(event_id)
   }
 
   const clickUpdateAttendance = async(user_id, status) =>{
-    await updateAttendance(route.params.event_id, user_id, status)
+    await updateAttendance(event_id, user_id, status)
   }
 
   return (

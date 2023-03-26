@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/AuthContext'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import moment from 'moment/moment'
 import React, {useContext} from 'react'
 
@@ -66,7 +67,7 @@ const FlowAttendance = ({event_id}) => {
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         {
                             item == 'QR CODE' ? (
-                            <AntDesign name='qrcode' size={35} color='green'/>
+                            <MaterialIcons name='qr-code-scanner' size={35} color='green'/>
                             ) : (
                             <MaterialCommunityIcons name='face-recognition' size={35} color='green'/>
                             )

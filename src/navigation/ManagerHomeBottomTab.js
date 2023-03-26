@@ -15,7 +15,7 @@ const ManagerHomeBottomTab = () => {
 
   return (
     <Tab.Navigator
-        initialRouteName={"EventListScreen"}
+        initialRouteName={"Home"}
         screenOptions={{
             headerShown: true,
             tabBarShowLabel: false,
@@ -25,12 +25,12 @@ const ManagerHomeBottomTab = () => {
             tabBarInactiveTintColor: 'black',
             tabBarActiveTintColor: 'blue'
         }}>
-        <Tab.Screen name={"EventListScreen"} component={ManagerAttendanceList} options={{
+        <Tab.Screen name={"Home"} component={ManagerAttendanceList} options={{
           tabBarIcon: ({color, size})=>(
             <MaterialIcons name="event-note" color={color} size={size} />
           )
         }}/>
-        <Tab.Screen name={"userProfile"} component={ManagerProfile} options={{
+        <Tab.Screen name={"Manager Profile"} component={ManagerProfile} options={{
           tabBarIcon: ({color, size})=>(
             <AntDesign name="profile" color={color} size={size}/>
           )

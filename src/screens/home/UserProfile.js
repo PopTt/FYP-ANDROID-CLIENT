@@ -1,28 +1,36 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, {useContext} from 'react'
 import { AuthContext } from '../../context/AuthContext'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const UserProfile = ({navigation}) => {
   const {logout, authState} = useContext(AuthContext)
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.label}>USERNAME :</Text>
-        <Text style={styles.text}>{authState.username}</Text>
+        <Text style={styles.label}>USERNAME</Text>
+        <View style={styles.type}>
+          <Text style={styles.type_text}>{authState.username}</Text>
+        </View>
       </View>
       <View>
-        <Text style={styles.label}>Email :</Text>
-        <Text style={styles.text}>{authState.email}</Text>
+        <Text style={styles.label}>Email</Text>
+        <View style={styles.type}>
+          <Text style={styles.type_text}>{authState.email}</Text>
+        </View>
       </View>
       <View>
-        <Text style={styles.label}>Account Type :</Text>
-        <Text style={styles.text}>{authState.acctype}</Text>
+        <Text style={styles.label}>Account Type</Text>
+        <View style={styles.type}>
+          <Text style={styles.type_text}>{authState.acctype}</Text>
+        </View>
       </View>
       <TouchableOpacity style={styles.btn} onPress={()=>logout()}>
-        <Text>logout</Text>
+        <Text style={styles.type_text}>logout</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.btn} onPress={()=>navigation.navigate('FaceRegisterScreen')}>
-        <Text>Register your face</Text>
+      <TouchableOpacity style={styles.btnRow} onPress={()=>navigation.navigate('FaceRegisterScreen')}>
+        <Text style={styles.type_text}>Register your face </Text>
+        <MaterialCommunityIcons name='face-recognition' color={"#f2f2f2"} size={30}/>
       </TouchableOpacity>
     </View>
   )
@@ -31,18 +39,46 @@ const UserProfile = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E2F6FB',
+    backgroundColor: 'white',
     justifyContent: 'center'
   },
   btn: {
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     padding: 10,
-    margin: 10
+    marginHorizontal: 18,
+    marginTop: 40,
+    marginBottom: 10,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  },
+  btnRow: {
+    flexDirection: 'row',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black',
+    padding:8,
+    marginHorizontal: 18,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   label:{
-    color: 'blue',
+    color: 'black',
     fontSize: 20,
     fontWeight: 'bold',
     textTransform: 'uppercase',
@@ -54,6 +90,19 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 15,
     fontFamily: 'serif'
+  },
+  type_text: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'sans-serif-condensed'
+  },
+  type: {
+    padding: 5,
+    margin: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'orange'
   },
 })
 

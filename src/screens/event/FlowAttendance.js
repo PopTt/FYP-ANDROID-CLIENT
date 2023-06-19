@@ -63,6 +63,7 @@ const FlowAttendance = ({event_id}) => {
                         elevation: 6,
                         borderWidth: 1
                         }}
+                        disabled={targetEvent.status}
                         onPress={() => handleClick(item)}>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         {

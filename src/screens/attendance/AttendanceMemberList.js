@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView, Alert }
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AuthContext } from '../../context/AuthContext'
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import moment from 'moment/moment'
 import React, {useContext} from 'react'
@@ -36,7 +37,60 @@ const AttendanceMemberList = ({event_id}) => {
             <Text style={styles.back_text}>BACK</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.middle}>
+      <ScrollView 
+          style={{
+            maxHeight: 40,
+            minHeight: 40
+          }} 
+          horizontal={true}>
+<View style={styles.middle}>
+        <Text style={styles.title}>{targetEvent.name}</Text>
+        <View style={styles.type}>
+          <Text style={styles.type_text}>{targetEvent.organization.name}</Text>
+        </View>
+        {
+          targetEvent.status ? 
+          (
+            <View style={styles.close_type}>
+              <Text style={styles.type_text}>CLOSE</Text>
+            </View>
+          ) : 
+          (
+            <View style={styles.type}>
+              <Text style={styles.type_text}>OPEN</Text>
+            </View>
+          )
+        }
+        {
+          targetEvent.status ? 
+          (
+            <View style={styles.open}>
+              <TouchableOpacity onPress={clickOpenEvent} style={styles.rowBtn}>
+                  <Text style={styles.type_text}>Open The Event </Text>
+                  <FontAwesome name='unlock' color={"white"} size={22}/>
+              </TouchableOpacity>
+            </View>
+          ) : 
+          (
+            <View style={styles.open}>
+              <TouchableOpacity onPress={clickCloseEvent} style={styles.rowBtn}>
+                  <Text style={styles.type_text}>Close The Event </Text>
+                  <FontAwesome name='lock' color={"white"} size={22}/>
+              </TouchableOpacity>
+            </View>
+          )
+        }
+
+        <View style={styles.open}>
+              <TouchableOpacity onPress={()=>Alert.alert(targetEvent.invitationPin)} style={styles.rowBtn}>
+                <Text style={styles.type_text}>INVITATION PIN </Text>
+                  <MaterialCommunityIcons name='form-textbox-password' color={"white"} size={22}/>
+              </TouchableOpacity>
+            </View>
+            
+      </View>
+    </ScrollView>
+      {/* <View style={styles.middle}>
         <Text style={styles.title}>{targetEvent.name}</Text>
         <View style={styles.type}>
           <Text style={styles.type_text}>{targetEvent.organization.name}</Text>
@@ -71,7 +125,7 @@ const AttendanceMemberList = ({event_id}) => {
             </View>
           )
         }
-      </View>
+      </View> */}
       <View style={{paddingBottom: 5}}>
         <ScrollView style={styles.bottom}>
           <Text style={styles.text}>{targetEvent.description}</Text>
@@ -175,21 +229,23 @@ const styles  = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'red'
   },
-  close: {
-    borderRadius: 18,
-    padding: 4,
-    marginLeft: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'red'
-  },
   open: {
     borderRadius: 18,
     padding: 4,
     marginLeft: 10,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'green'
+    backgroundColor: 'black',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 8,
+    borderWidth: 1,
+    borderColor: 'white'
   },
   type_text: {
     color: 'white',

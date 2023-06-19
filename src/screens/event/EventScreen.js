@@ -20,21 +20,7 @@ const EventScreen = ({event_id}) => {
   const targetRecord = targetEvent.participants.find(item => {
     return item.id == authState.id
   })
-
-  const handleClick = (type) =>{
-    if(type === 'QR CODE') {
-        navigation.navigate('QRCodeScannerScreen', {
-            event_id: event_id,
-          })
-    }
-
-    if(type === 'Face-Recognition'){
-        navigation.navigate('FaceRecognitionScreen', {
-            event_id: event_id,
-          })
-    }
-  }
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
